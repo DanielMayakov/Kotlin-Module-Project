@@ -40,9 +40,9 @@ class MenuScreen {
 
     private fun addNotesToArchive(archive: Archive<Note>) {
         while (true) {
-            print("Введите название заметки (для выхода введите 'exit'): ")
+            print("Введите название заметки (для выхода введите 'выход'): ")
             val noteTitle = scanner.nextLine()
-            if (noteTitle.toLowerCase() == "exit") {
+            if (noteTitle.toLowerCase() == "выход") {
                 break
             }
 
@@ -65,10 +65,10 @@ class MenuScreen {
 
     private fun viewArchives() {
         archivesManager.viewArchives()
-        print("Выберите номер архива для просмотра заметок (для выхода введите 'exit'): ")
+        print("Выберите номер архива для просмотра заметок (для выхода введите 'выход'): ")
 
         val userInput = scanner.nextLine()
-        if (userInput.toLowerCase() == "exit") {
+        if (userInput.toLowerCase() == "выход") {
             return
         }
 
@@ -87,10 +87,10 @@ class MenuScreen {
 
     private fun viewArchiveNotes(archive: Archive<Note>) {
         archive.viewNotes()
-        print("Выберите номер заметки для просмотра (для выхода введите 'exit'): ")
+        print("Выберите номер заметки для просмотра (для выхода введите 'выход'): ")
 
         val userInput = scanner.nextLine()
-        if (userInput.toLowerCase() == "exit") {
+        if (userInput.toLowerCase() == "выход") {
             return
         }
 
@@ -122,7 +122,10 @@ class MenuScreen {
             when (userInput) {
                 1 -> editNoteTitle(note)
                 2 -> editNoteContent(note)
-                3 -> deleteNoteFromArchive(note)
+                3 -> {
+                    deleteNoteFromArchive(note)
+                    return
+                }
                 4 -> return
                 else -> println("Некорректный ввод. Пожалуйста, выберите существующий пункт.")
             }
@@ -165,10 +168,10 @@ class MenuScreen {
             println("$index. Архив ${archive.name}")
         }
 
-        print("Выберите номер архива для выполнения операции (для выхода введите 'exit'): ")
+        print("Выберите номер архива для выполнения операции (для выхода введите 'выход'): ")
 
         val userInput = scanner.nextLine()
-        if (userInput.toLowerCase() == "exit") {
+        if (userInput.toLowerCase() == "выход") {
             return
         }
 
@@ -177,10 +180,10 @@ class MenuScreen {
             val archives = archivesManager.getArchives()
             if (archiveIndex in archives.indices) {
                 val archive = archives[archiveIndex]
-                println("Вы выбрали архив '{archive.name}'.")
-                viewArchiveNotes(archive)
+                println("Вы выбрали архив '${archive.name}'.")
+                addNotesToArchive(archive)  // Add notes to the selected archive
             } else {
-                println("Архив с номером archiveIndex не найден.")
+                println("Архив с номером $archiveIndex не найден.")
             }
         } else {
             println("Некорректный ввод. Пожалуйста, введите число.")
